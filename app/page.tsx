@@ -1,15 +1,49 @@
 import Image from "next/image";
 
+type Show = {
+  image?: string;
+  imageAlt?: string;
+  date: string;
+  venue: string;
+  venueLink?: string;
+  location: string;
+  details: string;
+  price?: string;
+  ticketsLink?: string;
+  eventLink?: string;
+};
+
 export default function Page() {
-  const shows = [
+  const shows: Show[] = [
     {
-      image: "/gallery/gallery-taproom-wide.webp",
-      imageAlt: "The Pipe Dream performing at Rob Ray's Taproom",
-      date: "Saturday, September 12, 2026",
-      venue: "Rob Ray's Taproom",
-      location: "Pearland, TX",
-      details: "7–9 PM",
-      link: "https://www.robraystaproom.com/",
+      image: "/gallery/big-top-october-2026.webp",
+      imageAlt: "The Pipe Dream performing live at The Big Top",
+      date: "Saturday, October 10, 2026",
+      venue: "The Big Top",
+      location: "Houston, TX",
+      details: "Doors at 8:30 PM • Show 9:30 PM–midnight",
+      price: "$10 advance + $3 surcharge • $15 at the door",
+      ticketsLink:
+        "https://checkout.square.site/merchant/MLRNGF6WV7S09/checkout/LJKSE3323GO5A4X732OOMJSB",
+      eventLink:
+        "https://continentalclub.com/bigtop#event=78106474;instance=20261010213000?popup=1&lang=en-US",
+    },
+    {
+      image: "/gallery/corporate-event-spring-october-2026.webp",
+      imageAlt: "The Pipe Dream in Halloween costumes at a corporate event",
+      date: "Friday, October 30, 2026",
+      venue: "Private corporate event",
+      location: "Spring, TX",
+      details: "Private event • Not open to the public",
+    },
+    {
+      image: "/logo-2026.webp",
+      imageAlt: "The Pipe Dream logo",
+      date: "Saturday, November 7, 2026",
+      venue: "AGR Sport Bar - Katy",
+      venueLink: "https://agrsportsbar.com/",
+      location: "Katy, TX",
+      details: "Time and other details to be announced",
     },
   ];
 
@@ -151,24 +185,25 @@ export default function Page() {
               </h2>
             </div>
 
-            <div className="mt-6 max-w-3xl">
+            <div className="mx-auto mt-6 grid max-w-4xl gap-5 lg:grid-cols-3">
               {shows.map((show) => (
-                <a
+                <article
                   key={`${show.date}-${show.venue}`}
-                  href={show.link}
-                  className="grid overflow-hidden rounded-[1.75rem] border-4 border-[#3f1e02] bg-[#e9bf85] shadow-[0_8px_0_0_#3f1e02] transition hover:translate-y-[2px] hover:shadow-[0_6px_0_0_#3f1e02] md:grid-cols-[minmax(240px,0.85fr)_1.15fr]"
+                  className="flex h-full flex-col overflow-hidden rounded-[1.75rem] border-4 border-[#3f1e02] bg-[#e9bf85] shadow-[0_8px_0_0_#3f1e02]"
                 >
-                  <div className="relative min-h-56 border-b-4 border-[#3f1e02] md:min-h-full md:border-r-4 md:border-b-0">
-                    <Image
-                      src={show.image}
-                      alt={show.imageAlt}
-                      fill
-                      sizes="(max-width: 767px) 100vw, 320px"
-                      className="object-cover"
-                    />
-                  </div>
+                  {show.image && show.imageAlt ? (
+                    <div className="relative aspect-[4/3] overflow-hidden border-b-4 border-[#3f1e02] bg-[#17060e]">
+                      <Image
+                        src={show.image}
+                        alt={show.imageAlt}
+                        fill
+                        sizes="(max-width: 1023px) 100vw, 33vw"
+                        className="object-contain"
+                      />
+                    </div>
+                  ) : null}
 
-                  <div className="p-5 sm:p-6">
+                  <div className="flex flex-1 flex-col p-4 sm:p-5">
                     <div className="text-sm font-black uppercase tracking-[0.18em] text-[#923602]">
                       {show.date}
                     </div>
@@ -185,11 +220,48 @@ export default function Page() {
                       {show.details}
                     </p>
 
-                    <span className="mt-5 inline-block text-sm font-black underline decoration-2 underline-offset-4">
-                      View venue details →
-                    </span>
+                    {show.price ? (
+                      <p className="mt-2 text-sm font-semibold leading-6 text-[#923602]">
+                        {show.price}
+                      </p>
+                    ) : null}
+
+                    {show.ticketsLink || show.eventLink || show.venueLink ? (
+                      <div className="mt-auto flex flex-nowrap gap-2 pt-5">
+                        {show.ticketsLink ? (
+                          <a
+                            href={show.ticketsLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="whitespace-nowrap rounded-2xl border-2 border-[#3f1e02] bg-[#e08e02] px-3 py-2 text-xs font-black shadow-[3px_3px_0_0_#3f1e02] transition hover:translate-y-[1px] hover:shadow-[2px_2px_0_0_#3f1e02]"
+                          >
+                            Buy tickets
+                          </a>
+                        ) : null}
+                        {show.eventLink ? (
+                          <a
+                            href={show.eventLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="whitespace-nowrap rounded-2xl border-2 border-[#3f1e02] bg-[#f4d8a9] px-3 py-2 text-xs font-black shadow-[3px_3px_0_0_#3f1e02] transition hover:translate-y-[1px] hover:shadow-[2px_2px_0_0_#3f1e02]"
+                          >
+                            Event details
+                          </a>
+                        ) : null}
+                        {show.venueLink && !show.eventLink ? (
+                          <a
+                            href={show.venueLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="whitespace-nowrap rounded-2xl border-2 border-[#3f1e02] bg-[#f4d8a9] px-3 py-2 text-xs font-black shadow-[3px_3px_0_0_#3f1e02] transition hover:translate-y-[1px] hover:shadow-[2px_2px_0_0_#3f1e02]"
+                          >
+                            Venue website
+                          </a>
+                        ) : null}
+                      </div>
+                    ) : null}
                   </div>
-                </a>
+                </article>
               ))}
             </div>
           </section>
