@@ -43,7 +43,7 @@ export default function Page() {
       venue: "AGR Sport Bar - Katy",
       venueLink: "https://agrsportsbar.com/",
       location: "Katy, TX",
-      details: "Time and other details to be announced",
+      details: "8–11 PM",
     },
   ];
 
